@@ -29,11 +29,11 @@ Last updated: 2025-06-04
 ## Overview 
 
 <div align="center">
-  <img src="" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
+  <img src="https://github.com/user-attachments/assets/47c6f4a2-7366-410f-ae06-9c1aa9cd6514" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
 </div>
 
 <div align="center">
-  <img src="" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
+  <img src="https://github.com/user-attachments/assets/e5d47acd-dabd-41b3-8fc5-da5f7c4b5b68" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
 </div>
 
 > Templates structure:
@@ -73,7 +73,7 @@ graph TD;
     > Go to the path where Terraform files are located:
 
     ```sh
-    cd scenario1-high-decay/terraform-infrastructure
+    cd scenario2-optimized/terraform-infrastructure
     ```
     
     ```sh
