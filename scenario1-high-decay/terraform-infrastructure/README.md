@@ -9,13 +9,14 @@ Last updated: 2025-06-04
 
 ----------
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/3f2442a6-6684-46dc-82be-0f7b40336a2e" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
-</div>
+<details>
+<summary><b>Table of content</b> (Click to expand)</summary>
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/1f805eda-ab9e-46ce-ae5d-0cf0f0d075c5" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
-</div>
+- [Prerequisites](#prerequisites)
+- [Overview](#overview)
+- [How to execute it](#how-to-execute-it)
+
+</details>
 
 ## Prerequisites
 
@@ -27,7 +28,15 @@ Last updated: 2025-06-04
 
 ## Overview 
 
-Templates structure:
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/3f2442a6-6684-46dc-82be-0f7b40336a2e" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
+</div>
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/1f805eda-ab9e-46ce-ae5d-0cf0f0d075c5" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
+</div>
+
+> Templates structure:
 
 ```
 .
