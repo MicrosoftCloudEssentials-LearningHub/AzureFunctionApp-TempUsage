@@ -1,4 +1,4 @@
-# Scenario 1: High-Load Writable Deployment with Aggressive Logging - Overview 
+# Scenario 1 - Overview <br/> High-Load Writable Deployment with Aggressive Logging 
 
 Costa Rica
 
