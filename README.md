@@ -62,12 +62,12 @@ Last updated: 2025-08-27
 
 > Each scenario includes detailed deployment guides that explain different approaches:
 
-1. High-Decay (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
-2. Optimized (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
+1. [High-Decay](./scenario1-high-decay) (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
+2. [Optimized](./scenario2-optimized) (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
 
 ###  High-Decay (Writable Approach)
 
-> The combination of writable deployment, intensive logging, and full diagnostics causes Azure Functions to generate and buffer a large amount of telemetry and log data in local temp storage. This leads to rapid disk usage growth, temp file accumulation, and eventual disk decay:
+> The combination of writable deployment, intensive logging, and full diagnostics causes Azure Functions to generate and buffer a large amount of telemetry and log data in local temp storage. This leads to rapid disk usage growth, temp file accumulation, and eventual disk decay. Click here to go to [High-Decay](./scenario1-high-decay) test approach
 
 - **Deployment Method**: Standard deployment (extracted to wwwroot)
 - **File Access**: Files are writable by the Function App
@@ -86,7 +86,7 @@ Last updated: 2025-08-27
 
 ### Optimized (Mounted Package Approach):
 
-> The combination of mounted (read-only) deployment, optimized logging, and minimal diagnostics causes Azure Functions to generate and buffer very little telemetry and log data in local temp storage. This prevents disk usage from growing, avoids temp file accumulation, and eliminates disk decay:
+> The combination of mounted (read-only) deployment, optimized logging, and minimal diagnostics causes Azure Functions to generate and buffer very little telemetry and log data in local temp storage. This prevents disk usage from growing, avoids temp file accumulation, and eliminates disk decay. Click here to go to [Optimized](./scenario2-optimized) test approach
 
 - **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
 - **File Access**: Files are read-only (mounted from zip)
