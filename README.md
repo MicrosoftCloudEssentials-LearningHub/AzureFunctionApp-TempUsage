@@ -10,6 +10,8 @@ Last updated: 2025-08-27
 
 -----------------------------
 
+> Contains two scenarios to compare temp file decay behavior in Azure Functions. The goal is to demonstrate how different configuration and coding practices affect temporary file accumulation and disk usage.
+
 > [!IMPORTANT]
 > Overview about how Azure Function Apps operate within App Service infrastructure, focusing on temp file creation, storage, and management. Runtime behavior, deployment impact, and optimization strategies. For official guidance, support, or more detailed information, please refer to Microsoft's official documentation or contact Microsoft directly: [Microsoft Sales and Support](https://support.microsoft.com/contactus?ContactUsExperienceEntryPointAssetId=S.HP.SMC-HOME)
 
@@ -24,6 +26,34 @@ Last updated: 2025-08-27
 - [Sampling in Azure Monitor Application Insights with OpenTelemetry](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-sampling)
 
 </details>
+
+## Scenarios
+
+1. [High Decay test](./scenario1-high-decay): Test rapid temp file accumulation and disk decay
+2. Recommendations for [Optimized configuration](./scenario2-optimized): Test how to minimize temp file accumulation
+   
+## How to Compare Results
+
+> When deployed, two scenarios were compared by:
+
+1. Monitoring disk usage in Kudu (`https://<function-app-name>.scm.azurewebsites.net/DebugConsole`)
+2. Running load tests against both function apps
+3. Observing memory usage and response times
+4. Checking temp directories for file accumulation
+
+## Deployment Approaches
+
+> Each scenario includes detailed deployment guides that explain different approaches:
+
+1. High-Decay (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
+  - **Deployment Method**: Standard deployment (extracted to wwwroot)
+  - **File Access**: Files are writable by the Function App
+  - **Pipelines**: Azure DevOps pipeline with standard deployment
+
+2. Optimized (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
+  - **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
+  - **File Access**: Files are read-only (mounted from zip)
+  - **Pipelines**: Azure DevOps pipeline with ZipDeploy or GitHub Actions workflow
 
 
 <!-- START BADGE -->
