@@ -1,4 +1,4 @@
-# Azure Function App Infrastructure: Runtime and Storage Insights (Temp Files)
+# Azure Function App Infrastructure - Overview <br/> Runtime and Storage Insights (Temp Files)
 
 Costa Rica
 
@@ -9,6 +9,10 @@ Costa Rica
 Last updated: 2025-08-27
 
 -----------------------------
+
+> [!IMPORTANT]
+> Overview about how Azure Function Apps operate within App Service infrastructure, focusing on temp file creation, storage, and management. Runtime behavior, deployment impact, and optimization strategies. For official guidance, support, or more detailed information, please refer to Microsoft's official documentation or contact Microsoft directly: [Microsoft Sales and Support](https://support.microsoft.com/contactus?ContactUsExperienceEntryPointAssetId=S.HP.SMC-HOME)
+
 
 
 <details>
