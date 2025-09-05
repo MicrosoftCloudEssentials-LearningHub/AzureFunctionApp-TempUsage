@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azurerm"  # Source of the AzureRM provider
       version = "~> 4.16.0"          # Version of the AzureRM provider
     }
+    random = {
+      source  = "hashicorp/random"   # Source of the Random provider
+      version = "~> 3.5.0"           # Version of the Random provider
+    }
   }
 }
 
