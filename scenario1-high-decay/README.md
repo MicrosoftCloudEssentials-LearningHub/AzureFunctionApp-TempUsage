@@ -24,6 +24,17 @@ Last updated: 2025-08-27
 
 </details>
 
+<details>
+<summary><b>Table of content</b> (Click to expand)</summary>
+
+- [Infrastructure Setup](#infrastructure-setup)
+- [Deployment Instructions](#deployment-instructions)
+- [Testing](#testing)
+- [Monitoring](#monitoring)
+
+</details>
+
+  
 > [!NOTE]
 > Expected Results: <br/>
 > - Rapid temp file accumulation in `C:\local\Temp` <br/>
