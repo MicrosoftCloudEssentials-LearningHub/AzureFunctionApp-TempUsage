@@ -33,6 +33,17 @@ Last updated: 2025-08-27
 
 </details>
 
+<details>
+<summary><b>Table of Content</b> (Click to expand)</summary>
+
+- [Scenarios](#scenarios)
+- [How to Compare Results](#how-to-compare-results)
+- [Deployment Approaches](#deployment-approaches)
+    - [High-Decay ](#high-decay-writable-approach) - `Writable Approach + Configs`
+    - [Optimized](#optimized-mounted-package-approach) - `Mounted Package Approach + Configs`
+
+</details>
+
 ## Scenarios
 
 1. [High Decay test](./scenario1-high-decay): Test rapid temp file accumulation and disk decay
@@ -52,14 +63,46 @@ Last updated: 2025-08-27
 > Each scenario includes detailed deployment guides that explain different approaches:
 
 1. High-Decay (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
-    - **Deployment Method**: Standard deployment (extracted to wwwroot)
-    - **File Access**: Files are writable by the Function App
-    - **Pipelines**: Azure DevOps pipeline with standard deployment
-
 2. Optimized (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
-    - **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
-    - **File Access**: Files are read-only (mounted from zip)
-    - **Pipelines**: Azure DevOps pipeline with ZipDeploy or GitHub Actions workflow
+
+###  High-Decay (Writable Approach)
+
+> The combination of writable deployment, intensive logging, and full diagnostics causes Azure Functions to generate and buffer a large amount of telemetry and log data in local temp storage. This leads to rapid disk usage growth, temp file accumulation, and eventual disk decay:
+
+- **Deployment Method**: Standard deployment (extracted to wwwroot)
+- **File Access**: Files are writable by the Function App
+- **Pipelines**: Azure DevOps pipeline with standard deployment
+
+> [!IMPORTANT]
+> Overall, the problem with standard/writable deployment with intensive logging:
+> - **Intensive logging and diagnostics** (full Application Insights, detailed diagnostics, verbose log level) generate a large volume of log and telemetry data.
+> - **Writable deployment** (`WEBSITE_RUN_FROM_PACKAGE = 0`) means the function app runs from extracted files in `wwwroot`, allowing the app and platform to write files locally.
+> - **Azure Functions and the platform buffer logs, telemetry, and temp files in the local file system**, specifically under `C:\local\Temp` and `D:\local\Temp` (on Windows plans).
+> - **Telemetry and diagnostic logs are first written to local temp storage** before being sent to Application Insights or other destinations.
+> - **High load and verbose logging** cause rapid accumulation of files in these temp directories.
+> - **Disk usage grows over time** as temp files, logs, and telemetry buffers accumulate, especially if the app is under sustained or bursty load.
+> - **Some files may remain locked or not be cleaned up automatically**, even after a function app restart, leading to "disk decay" (progressive loss of available disk space).
+> - **Performance degrades** as disk fills up, and the app may eventually fail if the temp storage is exhausted.
+
+### Optimized (Mounted Package Approach):
+
+> The combination of mounted (read-only) deployment, optimized logging, and minimal diagnostics causes Azure Functions to generate and buffer very little telemetry and log data in local temp storage. This prevents disk usage from growing, avoids temp file accumulation, and eliminates disk decay:
+
+- **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
+- **File Access**: Files are read-only (mounted from zip)
+- **Pipelines**: Azure DevOps pipeline with ZipDeploy or GitHub Actions workflow
+
+> [!IMPORTANT]
+> **Overall, the benefit with optimized (mounted) deployment and minimal logging:**
+> - **Minimal logging and diagnostics** (Application Insights with sampling, reduced diagnostics, less verbose log level) generate far less log and telemetry data.
+> - **Mounted deployment** (`WEBSITE_RUN_FROM_PACKAGE = 1`) means the function app runs from a read-only mounted package, preventing the app and platform from writing files to `wwwroot`.
+> - **Azure Functions and the platform buffer far fewer logs and temp files in the local file system**, reducing writes to `C:\local\Temp` and `D:\local\Temp`.
+> - **Telemetry and diagnostic logs are sampled and sent directly to Application Insights or other destinations,** with minimal local buffering.
+> - **Even under high load, temp file accumulation is negligible** because the app and platform cannot write to the mounted package and logging is optimized.
+> - **Disk usage remains stable over time** as temp files, logs, and telemetry buffers are minimized and cleaned up efficiently.
+> - **Restarts are rarely needed** for disk cleanup, and locked files are uncommon.
+> - **Performance remains consistent** even under sustained load, as disk space is preserved and temp file decay is prevented.
+
 
 <!-- START BADGE -->
 <div align="center">
