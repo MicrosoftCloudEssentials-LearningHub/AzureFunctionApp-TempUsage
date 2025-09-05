@@ -46,15 +46,14 @@ Last updated: 2025-08-27
 > Each scenario includes detailed deployment guides that explain different approaches:
 
 1. High-Decay (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
-  - **Deployment Method**: Standard deployment (extracted to wwwroot)
-  - **File Access**: Files are writable by the Function App
-  - **Pipelines**: Azure DevOps pipeline with standard deployment
+    - **Deployment Method**: Standard deployment (extracted to wwwroot)
+    - **File Access**: Files are writable by the Function App
+    - **Pipelines**: Azure DevOps pipeline with standard deployment
 
 2. Optimized (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
-  - **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
-  - **File Access**: Files are read-only (mounted from zip)
-  - **Pipelines**: Azure DevOps pipeline with ZipDeploy or GitHub Actions workflow
-
+    - **Deployment Method**: ZipDeploy with `WEBSITE_RUN_FROM_PACKAGE=1`
+    - **File Access**: Files are read-only (mounted from zip)
+    - **Pipelines**: Azure DevOps pipeline with ZipDeploy or GitHub Actions workflow
 
 <!-- START BADGE -->
 <div align="center">
