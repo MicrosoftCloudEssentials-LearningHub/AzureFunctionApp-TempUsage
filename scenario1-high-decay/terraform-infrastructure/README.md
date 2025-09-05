@@ -17,6 +17,14 @@ Last updated: 2025-06-04
   <img src="https://github.com/user-attachments/assets/1f805eda-ab9e-46ce-ae5d-0cf0f0d075c5" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
 </div>
 
+## Prerequisites
+
+- An `Azure subscription is required`. All other resources, including instructions for creating a Resource Group, are provided in this workshop.
+- `Contributor role assigned or any custom role that allows`: access to manage all resources, and the ability to deploy resources within subscription.
+- If you choose to use the Terraform approach, please ensure that:
+  - [Terraform is installed on your local machine](https://developer.hashicorp.com/terraform/tutorials/azure-get-started/install-cli#install-terraform).
+  - [Install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) to work with both Terraform and Azure commands.
+
 ## Overview 
 
 Templates structure:
