@@ -30,6 +30,8 @@ Last updated: 2025-08-27
 - [Continuous delivery by using GitHub Actions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-how-to-github-actions)
 - [Best practices for reliable Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-best-practices)
 - [Improve the performance and reliability of Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/performance-reliability)
+- [Accessing the kudu service](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) - GitHub repo
+- [Understanding the Azure App Service file system](https://github.com/projectkudu/kudu/wiki/Understanding-the-Azure-App-Service-file-system#temporary-files) - GitHub repo
 
 </details>
 
