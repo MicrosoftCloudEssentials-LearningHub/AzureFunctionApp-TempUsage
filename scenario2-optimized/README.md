@@ -51,7 +51,7 @@ Last updated: 2025-09-05
   sku_name            = "P1v3"    
   ```
 
-    <img width="1908" height="842" alt="image" src="" />
+    <img width="1908" height="842" alt="image" src="https://github.com/user-attachments/assets/4cf56d87-c9f9-4711-95a7-1f130422fd3d" />
 
 - **Deployment Method (Function App Environment Variables)**: ZipDeploy with mounted package
 
