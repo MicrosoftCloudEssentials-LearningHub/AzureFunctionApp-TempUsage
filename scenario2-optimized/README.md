@@ -109,7 +109,7 @@ Last updated: 2025-09-05
   sampling_percentage = 5
   ```
 
-  <img width="1903" height="837" alt="image" src="" />
+  <img width="1903" height="837" alt="image" src="https://github.com/user-attachments/assets/48c3c1c1-b4df-4483-b204-37886708a614" />
 
 - **Key Vault Integration**: Secrets stored in Azure Key Vault with auto-generated credentials
 - **Managed Identity**: System-assigned identity for Key Vault and Storage access
