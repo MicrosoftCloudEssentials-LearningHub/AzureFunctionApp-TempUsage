@@ -96,11 +96,11 @@ Last updated: 2025-09-05
   "WEBSITE_ENABLE_TEMP_ACCESS" = "false"
   ```
 
-    <img width="1907" height="841" alt="image" src="" />
+    <img width="1907" height="841" alt="image" src="https://github.com/user-attachments/assets/c0ba9444-0641-4a31-9004-c29fe6cc1ff9" />
 
 > Overall:
 
-<img width="973" height="825" alt="image" src="" />
+<img width="973" height="825" alt="image" src="https://github.com/user-attachments/assets/2aea9cda-dc75-4e4a-9879-3a03334d5b47" />
 
 - **Application Insights**: Sampling enabled (5%). Click here to understand more about [Sampling overrides %](https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config#sampling-overrides)
 
