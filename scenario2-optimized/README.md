@@ -69,7 +69,7 @@ Last updated: 2025-09-05
   "WEBSITE_ENABLE_DETAILED_DIAGNOSTICS" = "false"
   ```
 
-    <img width="1917" height="796" alt="image" src="" />
+    <img width="1917" height="796" alt="image" src="https://github.com/user-attachments/assets/2cb191a9-1615-42c6-bb2c-635cb4dacf27" />
 
 - **Logging Configuration (Function App Environment Variables)**: Minimal logging enabled. Click here to understand more about [log levels types](https://learn.microsoft.com/en-us/azure/azure-functions/configure-monitoring?tabs=v2#configure-log-levels)
 
@@ -78,7 +78,7 @@ Last updated: 2025-09-05
   "AzureFunctionsJobHost__logging__LogLevel__Default" = "Warning"
   ```
 
-    <img width="1898" height="828" alt="image" src="" />
+    <img width="1898" height="828" alt="image" src="https://github.com/user-attachments/assets/63e99c2c-a1b0-4f62-ab11-9dd5df6db6a1" />
 
 - **SCM Separation (Function App Environment Variables)**: Disabled for better performance
 
