@@ -60,7 +60,7 @@ Last updated: 2025-09-05
   "WEBSITE_RUN_FROM_PACKAGE" = "1"
   ```
 
-    <img width="1903" height="842" alt="image" src="" />
+    <img width="1903" height="842" alt="image" src="https://github.com/user-attachments/assets/0832b23f-e1eb-4b91-be0b-6c48456ad3e9" />
 
 - **Diagnostics Settings (Function App Environment Variables)**: Minimal diagnostics enabled
 
