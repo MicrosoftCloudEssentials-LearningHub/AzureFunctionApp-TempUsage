@@ -87,7 +87,7 @@ Last updated: 2025-09-05
   "WEBSITE_DISABLE_SCM_SEPARATION" = "true"
   ```
 
-    <img width="1907" height="842" alt="image" src="" />
+    <img width="1907" height="842" alt="image" src="https://github.com/user-attachments/assets/1becf18e-26a4-4434-b1b0-1ef787bc8e29" />
 
 - **Temp Access (Function App Environment Variables)**: Explicitly disabled for better performance
 
