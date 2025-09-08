@@ -54,6 +54,8 @@ Last updated: 2025-08-27
 
 - **Deployment Method (Function App Environment Variables)**: Standard deployment (extracted .zip)
 
+  > `WEBSITE_RUN_FROM_PACKAGE = 0` means your app is deployed by extracting files from a zip package, rather than mounting the zip directly. `Extracted deployments allow your app to write to its local disk (such as C:\local\Temp), which is essential for scenarios testing temp file accumulation.`
+
   ```terraform
   # Force standard deployment instead of mounted package
   "WEBSITE_RUN_FROM_PACKAGE" = "0"
@@ -62,6 +64,8 @@ Last updated: 2025-08-27
     <img width="1903" height="842" alt="image" src="https://github.com/user-attachments/assets/412aeee4-3c7d-43b6-82ea-87050e30f4fe" />
 
 - **Diagnostics Settings (Function App Environment Variables)**: Detailed diagnostics enabled
+
+  > This enables verbose diagnostics for the Function App, assisting in troubleshooting. `More detailed logs make it easier to observe how temp files accumulate and to identify issues.`
 
   ```terraform
   # Enable full diagnostics for troubleshooting
@@ -72,6 +76,8 @@ Last updated: 2025-08-27
 
 - **Logging Configuration (Function App Environment Variables)**: Verbose logging enabled. Click here to understand more about [log levels types](https://learn.microsoft.com/en-us/azure/azure-functions/configure-monitoring?tabs=v2#configure-log-levels)
 
+  > Sets the default logging level (e.g., “Information”) for the Azure Functions host. `Higher verbosity (like “Information” or “Verbose”) increases disk usage due to more logs being written, which is relevant for stress-testing disk decay.`
+
   ```terraform
   # Set verbose logging level for better diagnostics but higher disk usage
   "AzureFunctionsJobHost__logging__LogLevel__Default" = "Information"
@@ -81,6 +87,8 @@ Last updated: 2025-08-27
 
 - **SCM Separation (Function App Environment Variables)**: Enabled to ensure Kudu and function app run as separate processes
 
+  > SCM stands for Source Control Management. In Azure, SCM refers to the Kudu service, which is the advanced tool behind deployments and diagnostics. When SCM Separation is enabled (WEBSITE_DISABLE_SCM_SEPARATION=false), the Kudu (SCM) site runs in a separate process from the main Function App. Separation improves security and stability, ensuring that debugging or diagnostic actions via Kudu do not interfere with the running Function App.
+
   ```terraform
   # Enable SCM separation for diagnostics
   "WEBSITE_DISABLE_SCM_SEPARATION" = "false"
@@ -89,6 +97,8 @@ Last updated: 2025-08-27
     <img width="1907" height="842" alt="image" src="https://github.com/user-attachments/assets/d2128b76-38e1-4e3a-af3f-835db68b428f" />
 
 - **Temp Access (Function App Environment Variables)**: Explicitly enabled for diagnostics and reporting
+
+  > Explicitly allows the Function App to access and write to the temp directory on the server. Necessary for scenarios where you want to observe temp file build-up or diagnose disk usage issues.
 
   ```terraform
   # Enable temp file access for diagnostics
@@ -102,6 +112,8 @@ Last updated: 2025-08-27
 <img width="973" height="825" alt="image" src="https://github.com/user-attachments/assets/4563a3f1-7168-4b86-b629-6210e99b8f90" />
 
 - **Application Insights**: Full logging (no sampling). Click here to understand more about [Sampling overrides %](https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config#sampling-overrides)
+
+  > Sampling reduces the volume of telemetry data sent to Application Insights. Setting sampling_percentage = 100 means no sampling, so all logs/events are recorded. `Full logging provides the most complete diagnostics but increases disk and network usage.`
 
   ```terraform
   # No sampling configured - full logging
