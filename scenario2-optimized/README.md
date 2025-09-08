@@ -55,6 +55,8 @@ Last updated: 2025-09-05
 
 - **Deployment Method (Function App Environment Variables)**: ZipDeploy with mounted package
 
+  > This means your app is deployed as a mounted package (the .zip is mounted read-only, not extracted to disk). `Significantly reduces disk writes and temp file creation, as the app cannot write to its own content folder. This is the recommended deployment method for Azure Functions.`
+
   ```terraform
   # Use mounted package deployment for optimized disk usage
   "WEBSITE_RUN_FROM_PACKAGE" = "1"
@@ -63,6 +65,8 @@ Last updated: 2025-09-05
     <img width="1903" height="842" alt="image" src="https://github.com/user-attachments/assets/0832b23f-e1eb-4b91-be0b-6c48456ad3e9" />
 
 - **Diagnostics Settings (Function App Environment Variables)**: Minimal diagnostics enabled
+
+  > Disables detailed diagnostics. `Reduces logging overhead and disk write operations, improving performance.`
 
   ```terraform
   # Disable detailed diagnostics for better performance
@@ -73,6 +77,8 @@ Last updated: 2025-09-05
 
 - **Logging Configuration (Function App Environment Variables)**: Minimal logging enabled. Click here to understand more about [log levels types](https://learn.microsoft.com/en-us/azure/azure-functions/configure-monitoring?tabs=v2#configure-log-levels)
 
+  > Only warnings and errors are logged. `Minimizes disk usage from logs while still capturing important events.`
+
   ```terraform
   # Set minimal logging
   "AzureFunctionsJobHost__logging__LogLevel__Default" = "Warning"
@@ -82,6 +88,9 @@ Last updated: 2025-09-05
 
 - **SCM Separation (Function App Environment Variables)**: Disabled for better performance
 
+  > SCM stands for Source Control Management (Kudu), used for advanced diagnostics and deployment.
+  > Setting this to true means SCM (Kudu) and the main app run in the same process. `Increases performance and reduces resource consumption, but may reduce isolation between diagnostics and the main app`
+  
   ```terraform
   # Disable SCM separation for better performance
   "WEBSITE_DISABLE_SCM_SEPARATION" = "true"
@@ -90,6 +99,8 @@ Last updated: 2025-09-05
     <img width="1907" height="842" alt="image" src="https://github.com/user-attachments/assets/1becf18e-26a4-4434-b1b0-1ef787bc8e29" />
 
 - **Temp Access (Function App Environment Variables)**: Explicitly disabled for better performance
+
+  > Disables access to the temp directory for the Function App. Prevents the app from creating temp files, further reducing disk writes and risk of disk filling up.
 
   ```terraform
   # Disable temp file access for better performance
@@ -104,6 +115,8 @@ Last updated: 2025-09-05
 
 - **Application Insights**: Sampling enabled (5%). Click here to understand more about [Sampling overrides %](https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config#sampling-overrides)
 
+  > Only 5% of telemetry data (logs, traces) is sent to Application Insights. `Greatly reduces disk and network usage, while still providing insight into application health.`
+  
   ```terraform
   # Enable sampling - optimized for low disk usage
   sampling_percentage = 5
@@ -128,8 +141,6 @@ Last updated: 2025-09-05
 > Monitor the function app using:
 
 - Azure Portal > Function App > Development Tools > Advanced tools ([Kudu](https://learn.microsoft.com/en-us/azure/app-service/resources-kudu))
-
-
 
 - Application Insights
 - Azure Monitor metrics
