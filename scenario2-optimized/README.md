@@ -35,7 +35,6 @@ Last updated: 2025-09-05
 
 </details>
 
-  
 > [!NOTE]
 > Expected Results: <br/>
 > - Minimal temp file creation <br/>
@@ -108,6 +107,10 @@ Last updated: 2025-09-05
   ```
 
     <img width="1907" height="841" alt="image" src="https://github.com/user-attachments/assets/c0ba9444-0641-4a31-9004-c29fe6cc1ff9" />
+
+- Another recommendation from the infrastructure setup is to separate storage: one dedicated to runtime operations and another for handling routine data transactions.
+
+<img width="332" height="258" alt="FunctionApp Temp Usage - Diagrams" src="https://github.com/user-attachments/assets/0ecc6ff7-ec9c-4d90-b107-adc9a5fee63f" />
 
 > Overall:
 
