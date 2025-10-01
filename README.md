@@ -46,6 +46,33 @@ Last updated: 2025-08-27
 
 </details>
 
+> [!NOTE]
+> - Azure Function App: This is the main service where your code lives and runs. Think of it as the container for your serverless functions.
+>   - You write small pieces of code called functions that respond to events—like HTTP requests, database changes, or scheduled timers.
+>   - These functions are event-driven or scheduled, meaning they only run when triggered, saving resources and cost.
+> - App Service Runtime: This layer is the execution environment that powers your Function App.
+>   - Language Runtimes: Supports multiple languages like C#, JavaScript, Python, etc.
+>   - HTTP Framework / Middleware: Handles incoming HTTP requests and routes them to the correct function.
+>   - Application Insights: Monitors and logs telemetry data for performance and debugging.
+>   - Kudu / IIS: Manages deployment, diagnostics, and request/response handling.
+>   - Hosts Function App: This is the actual runtime that executes your function code.
+> - App Service Plan: This is the infrastructure layer that supports the runtime.
+>   - Operating System: Can be Windows or Linux, depending on your configuration.
+>   - Temporary Storage: Uses `C:\Local\Temp\` for non-persistent file storage during function execution.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/4964fb4e-360c-4844-afda-7d0cddc1593c" alt="Centered Image" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
+</div>
+
+> [!TIP]
+> When a trigger (like an HTTP request or a timer) fires: 
+> - The Function App receives the event.
+> - The App Service Runtime processes it using the appropriate language runtime and middleware.
+> - The function executes, possibly logging data to Application Insights.
+> - The underlying OS and storage support the execution environment.
+
+`This setup allows developers to focus purely on writing code without worrying about servers, scaling, or infrastructure management—making Azure Functions a powerful serverless computing option.`
+
 ## Scenarios
 
 1. [High Decay test](./scenario1-high-decay): Test rapid temp file accumulation and disk decay
