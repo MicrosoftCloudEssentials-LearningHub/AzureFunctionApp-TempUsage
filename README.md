@@ -91,8 +91,8 @@ Last updated: 2025-10-01
 
 > Each scenario includes detailed deployment guides that explain different approaches:
 
-1. [Writable Approach](./deployment-options/az-functionapps-cicd-pipeline-template-writable.yml)
-2. [Mounted Package Approach](./deployment-options/az-functionapps-cicd-pipeline-template-optimized.yml)
+1. [Writable Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-writable.yml)
+2. [Mounted Package Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-optimized.yml)
 
 ###  High-Decay (Writable Approach)
 
