@@ -91,7 +91,7 @@ Last updated: 2025-10-01
 
 Here are a few deployment examples that show different ways you can approach:
 
-1. [VS manual deployment](./_deployment-options/VS-deployment-extension-manual-approach) - VS extension manual approach
+1. [VS manual deployment](./_deployment-options/VS-deployment-extension-manual-approach.md) - VS extension manual approach
 2. [Writable Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-writable.yml) - Deployment pipeline ADO approach
 3. [Mounted Package Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-optimized.yml) - Deployment pipeline ADO approach
 
