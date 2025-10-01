@@ -71,7 +71,7 @@ Last updated: 2025-10-01
 > - The function executes, possibly logging data to Application Insights.
 > - The underlying OS and storage support the execution environment.
 
-`This setup allows developers to focus purely on writing code without worrying about servers, scaling, or infrastructure management—making Azure Functions a powerful serverless computing option.`
+`This setup allows developers to focus purely on writing code without worrying about servers, scaling, or infrastructure management, making Azure Functions a powerful serverless computing option.`
 
 ## Scenarios
 
