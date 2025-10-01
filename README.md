@@ -92,7 +92,7 @@ Last updated: 2025-08-27
 > Each scenario includes detailed deployment guides that explain different approaches:
 
 1. [High-Decay](./scenario1-high-decay) (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
-2. [Optimized](./scenario2-optimized) (Mounted Package Approach), click here for [quick deployment guide](./scenario2-optimized/DEPLOYMENT.md)
+2. [Optimized](./scenario2-optimized) (Mounted Package Approach), click here to see a [deployment template sample](./scenario2-optimized/az-functionapps-cicd-pipeline-template.yml)
 
 ###  High-Decay (Writable Approach)
 
