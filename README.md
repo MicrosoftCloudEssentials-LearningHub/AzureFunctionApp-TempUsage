@@ -89,10 +89,11 @@ Last updated: 2025-10-01
 
 ## Deployment Approaches
 
-> Each scenario includes detailed deployment guides that explain different approaches:
+Here are a few deployment examples that show different ways you can approach:
 
-1. [High-Decay](./scenario1-high-decay) (Writable Approach), click here for [quick deployment guide](./scenario1-high-decay/DEPLOYMENT.md)
-2. [Optimized](./scenario2-optimized) (Mounted Package Approach), click here to see a [deployment template sample](./scenario2-optimized/az-functionapps-cicd-pipeline-template.yml)
+1. [VS manual deployment](./_deployment-options/VS-deployment-extension-manual-approach.md) - VS extension manual approach
+2. [Writable Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-writable.yml) - Deployment pipeline ADO approach
+3. [Mounted Package Approach](./_deployment-options/az-functionapps-cicd-pipeline-template-optimized.yml) - Deployment pipeline ADO approach
 
 ###  High-Decay (Writable Approach)
 
@@ -135,7 +136,7 @@ Last updated: 2025-10-01
 
 <!-- START BADGE -->
 <div align="center">
-  <img src="https://img.shields.io/badge/Total%20views-1320-limegreen" alt="Total views">
+  <img src="https://img.shields.io/badge/Total%20views-1325-limegreen" alt="Total views">
   <p>Refresh Date: 2025-10-01</p>
 </div>
 <!-- END BADGE -->

@@ -1,3 +1,4 @@
+# Example
 # Azure DevOps CI/CD Pipeline Template for Azure Functions
 # This template provides a complete CI/CD workflow for building and deploying Azure Function Apps
 # It includes both build and deployment stages with support for deployment slots and multi-environment deployments
@@ -59,29 +60,17 @@ parameters:
   # The method used to deploy the Function App
   # Valid options:
   # - 'auto': Lets Azure decide the best deployment method based on the app type and configuration.
-  #   Use this if you're unsure which method is best for your scenario.
-  #
   # - 'zipDeploy': Basic ZIP deployment that extracts files to the wwwroot folder.
-  #   USE CASE: Simple deployments where you need to update only the application files.
-  #   LIMITATIONS: Doesn't set any app settings, may cause cold start delays as files are extracted.
-  #
-  # - 'zipDeployWithRestartAppSetting': RECOMMENDED FOR PRODUCTION. 
-  #   Sets WEBSITE_RUN_FROM_PACKAGE=1 and deploys as a ZIP package.
-  #   USE CASE: Production deployments where you need read-only operation and optimal performance.
-  #   BENEFITS: 
-  #     - Makes wwwroot folder read-only (prevents in-portal editing)
-  #     - Runs directly from the package (no file extraction, reducing temp storage usage)
-  #     - Improves cold start performance
-  #     - Simplifies rollback (just switch app setting back to previous package)
-  #
+  # - 'zipDeployWithRestartAppSetting': Sets WEBSITE_RUN_FROM_PACKAGE=1 and deploys as a ZIP package (run-from-package).
   # - 'runFromPackage': Sets WEBSITE_RUN_FROM_PACKAGE to a URL of your package.
-  #   USE CASE: When your package is stored in Azure Blob Storage or other external location.
-  #   BENEFITS: Separates code deployment from activation, enabling blue/green deployments.
-  #
   # - 'webDeploy': Uses MSDeploy (Web Deploy) protocol for deployment.
-  #   USE CASE: Complex deployments with parameters, specific configurations, or transforms.
-  #   LIMITATIONS: Slower than ZIP deployments and more complex to configure.
-  deploymentMethod: 'zipDeployWithRestartAppSetting'
+  # For writable deployments prefer 'zipDeploy' or 'webDeploy'.
+  deploymentMethod: 'zipDeploy'
+  
+  # Writable Deployment 
+  # true  => deploy files to wwwroot (writable approach). Pre-deploy step will remove WEBSITE_RUN_FROM_PACKAGE.
+  # false => keep mounted/package behavior (run-from-package). Use 'zipDeployWithRestartAppSetting' or 'runFromPackage'.
+  writableDeployment: true
 
 stages:
   #################################################
@@ -89,7 +78,7 @@ stages:
   # Compiles the code and creates deployment packages
   #################################################
   - stage: Build
-    displayName: Build ${{parameters.artifactName}} for ${{parameters.branchName}}
+    displayName: Build ${{ parameters.artifactName }} for ${{ parameters.branchName }}
     jobs:
       - job: Build
         displayName: Build Function App
@@ -113,7 +102,6 @@ stages:
 
           # Step 3: Install .NET Core SDK
           # Ensures the correct .NET SDK version is available for building
-          # This allows you to standardize the SDK version across different build agents
           - task: UseDotNet@2
             inputs:
               packageType: 'sdk'
@@ -121,8 +109,6 @@ stages:
             displayName: Install .NET SDK Version ${{ parameters.dotnetVersion }}
 
           # Step 4: Restore NuGet Packages
-          # Downloads and installs all NuGet dependencies required by the projects
-          # This helps ensure all required libraries are available for the build
           - task: NuGetCommand@2
             inputs:
               command: 'restore'
@@ -132,9 +118,6 @@ stages:
             displayName: Restore NuGet Packages
 
           # Step 5: Build the Solution
-          # Compiles and publishes the projects to a directory
-          # We use zipAfterPublish: false to maintain control over the archive process
-          # This step creates the compiled application that will be deployed to Azure
           - task: DotNetCoreCLI@2
             displayName: Publish Function App
             inputs:
@@ -143,11 +126,8 @@ stages:
               arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/publish'
               publishWebProjects: false    # Ensures we publish all projects, not just web projects
               zipAfterPublish: false       # Don't zip during publish, we'll do that in next step for more control
-            
+          
           # Step 6: Archive Published Artifacts
-          # Creates a single ZIP file from all published files
-          # This is important for Azure Functions as they require a specific deployment package format
-          # The resulting ZIP file includes all files needed to run the Function App in Azure
           - task: ArchiveFiles@2
             inputs:
                 rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
@@ -158,8 +138,6 @@ stages:
             displayName: Archive Function App Package
 
           # Step 7: Publish Archived Build Artifacts
-          # Makes the ZIP archive available for download or use in subsequent pipeline stages
-          # This allows the deployment stage to access the build artifacts
           - task: PublishBuildArtifacts@1
             inputs:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)/archives'
@@ -193,10 +171,39 @@ stages:
                   artifact: archives
                   displayName: Download Build Artifacts
                 
-                # Step 2: Deploy to Azure Function App
-                # This deploys the ZIP package to the Azure Function App using the specified deployment method
-                # If using slots, it deploys to the staging slot first
-                # The deployment is done using the Azure Functions deployment API
+                # --- PRE-DEPLOY: Prepare app for writable deployment ---
+                # If writableDeployment is true we remove the WEBSITE_RUN_FROM_PACKAGE app setting (recommended)
+                # This converts the app from mounted-package (run-from-package) to writable wwwroot.
+                ${{ if eq(parameters.writableDeployment, true) }}:
+                  - task: AzureCLI@2
+                    displayName: 'Prepare app for writable deployment: unset WEBSITE_RUN_FROM_PACKAGE'
+                    inputs:
+                      azureSubscription: '${{ parameters.azureSubscription }}'
+                      scriptType: 'bash'
+                      scriptLocation: 'inlineScript'
+                      inlineScript: |
+                        set -e
+                        APP_NAME='${{ parameters.functionAppName }}'
+                        RG='${{ parameters.resourceGroupName }}'
+                        # If using slot, include slot argument
+                        SLOT_ARG=''
+                        if [ '${{ parameters.deployToSlot }}' = 'true' ]; then
+                          # Note: azure CLI slot argument uses --slot <name> (no quotes)
+                          SLOT_ARG="--slot ${{ parameters.slotName }}"
+                        fi
+
+                        # Option A (default): delete the app setting key (recommended to fully remove run-from-package)
+                        echo "Deleting WEBSITE_RUN_FROM_PACKAGE app setting (if present)..."
+                        az webapp config appsettings delete --name "$APP_NAME" --resource-group "$RG" --setting-names WEBSITE_RUN_FROM_PACKAGE $SLOT_ARG || true
+
+                        # Optional: display current setting (for diagnostics)
+                        echo "Current WEBSITE_RUN_FROM_PACKAGE value (if any):"
+                        az webapp config appsettings list --name "$APP_NAME" --resource-group "$RG" $SLOT_ARG --query "[?name=='WEBSITE_RUN_FROM_PACKAGE']" -o table || true
+
+                        echo "App prepared for writable deployment."
+
+                # --- DEPLOY PACKAGE ---
+                # This deploys the ZIP package to the Azure Function App using the specified deployment method.
                 - task: AzureFunctionApp@1
                   inputs:
                     azureSubscription: '${{ parameters.azureSubscription }}'  # Azure service connection
@@ -240,14 +247,36 @@ stages:
                     SourceSlot: '${{ parameters.slotName }}'
                   displayName: Swap Deployment Slots
 
+                # --- POST-DEPLOY: Restart the app if using writableDeployment (good to clear state) ---
+                ${{ if eq(parameters.writableDeployment, true) }}:
+                  - task: AzureCLI@2
+                    displayName: 'Restart Function App (writable deployment)'
+                    inputs:
+                      azureSubscription: '${{ parameters.azureSubscription }}'
+                      scriptType: 'bash'
+                      scriptLocation: 'inlineScript'
+                      inlineScript: |
+                        APP_NAME='${{ parameters.functionAppName }}'
+                        RG='${{ parameters.resourceGroupName }}'
+                        SLOT_ARG=''
+                        if [ '${{ parameters.deployToSlot }}' = 'true' ]; then
+                          SLOT_ARG="--slot ${{ parameters.slotName }}"
+                        fi
+
+                        echo "Restarting $APP_NAME..."
+                        az webapp restart --name "$APP_NAME" --resource-group "$RG" $SLOT_ARG || true
+                        echo "Restart completed."
+
                 # Step 5: Verify Deployment
                 # This checks if the deployment was successful
-                # It's a simple echo command, but could be extended to perform actual health checks
                 - script: |
                     echo "Deployment to ${{ parameters.functionAppName }} completed successfully"
                     echo "Environment: ${{ parameters.environment }}"
                     echo "Deployment Method: ${{ parameters.deploymentMethod }}"
-                    echo "Function App URL: https://${{ parameters.functionAppName }}${{ if eq(parameters.deployToSlot, true) }}${{ if ne(parameters.swapAfterDeployment, true) }}-${{ parameters.slotName }}${{ end }}${{ end }}.azurewebsites.net"
+                    if [ '${{ parameters.deployToSlot }}' = 'true' ]; then
+                      echo "Deployed to slot: ${{ parameters.slotName }}"
+                    fi
+                    echo "Function App URL: https://${{ parameters.functionAppName }}${{ if eq(parameters.deployToSlot, true) }}-${{ parameters.slotName }}${{ end }}.azurewebsites.net"
                   displayName: Verify Deployment
 
   #################################################
@@ -269,14 +298,17 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                # Define the base URL for the Function App
+                # Define the base URL for the Function App (slot-aware)
                 $baseUrl = "https://${{ parameters.functionAppName }}.azurewebsites.net"
+                if ('${{ parameters.deployToSlot }}' -eq 'true') {
+                  $baseUrl = "https://${{ parameters.functionAppName }}-${{ parameters.slotName }}.azurewebsites.net"
+                }
                 
                 Write-Host "Running health check against $baseUrl"
                 
                 try {
                   # You can replace this with actual endpoint tests specific to your Function App
-                  $response = Invoke-WebRequest -Uri "$baseUrl" -Method Get -TimeoutSec 30 -ErrorAction Stop
+                  $response = Invoke-WebRequest -Uri $baseUrl -Method Get -TimeoutSec 30 -ErrorAction Stop
                   Write-Host "Health check status code: $($response.StatusCode)"
                   
                   if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 400) {
