@@ -48,7 +48,7 @@ Last updated: 2025-10-01
 
 > [!NOTE]
 > - Azure Function App: This is the main service where your code lives and runs. Think of it as the container for your serverless functions.
->   - You write small pieces of code called functions that respond to events—like HTTP requests, database changes, or scheduled timers.
+>   - You write small pieces of code called functions that respond to events, like HTTP requests, database changes, or scheduled timers.
 >   - These functions are event-driven or scheduled, meaning they only run when triggered, saving resources and cost.
 > - App Service Runtime: This layer is the execution environment that powers your Function App.
 >   - Language Runtimes: Supports multiple languages like C#, JavaScript, Python, etc.
